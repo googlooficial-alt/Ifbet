@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trufas 1º Info - IFBA VCA</title>
+    <style>
+        :root {
+            --primary-color: #8B4513;
+            --secondary-color: #D2691E;
+            --accent-color: #FFD700;
+            --text-color: #333;
+            --light-bg: #FFF8DC;
+            --white: #ffffff;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            padding: 1.5rem 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 1rem;
+        }
+        
+        .logo img {
+            height: 60px;
+        }
+        
+        .logo h1 {
+            font-size: 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 2rem 0;
+        }
+        
+        .intro {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .intro h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin: 1rem 0;
+        }
+        
+        /* Trufas Grid */
+        .trufas-section h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+        
+        .trufas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 3rem;
+        }
+        
+        .trufa-card {
+            background-color: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .trufa-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .trufa-image {
+            height: 200px;
+            background-color: #f8f8f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4rem;
+        }
+        
+        .trufa-info {
+            padding: 1.5rem;
+        }
+        
+        .trufa-info h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .trufa-info p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .reservation-form {
+            margin-top: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        /* Reservas Section */
+        .reservas-section {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+        }
+        
+        .reservas-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .reservas-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .reserva-item {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .reserva-item:last-child {
+            border-bottom: none;
+        }
+        
+        .reserva-info h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.25rem;
+        }
+        
+        .reserva-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .reserva-quantity {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        /* Messages */
+        .message {
+            padding: 12px;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .success {
+            background-color: #e8f5e9;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+        }
+        
+        .error {
+            background-color: #ffebee;
+            color: var(--error-color);
+            border: 1px solid var(--error-color);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: var(--white);
+            text-align: center;
+            padding: 1.5rem 0;
+            margin-top: 3rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+            
+            .trufas-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .reserva-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .reserva-quantity {
+                align-self: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <!-- Logo IFBA VCA -->
+                <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="60" height="60" fill="#8B4513" rx="8"/>
+                    <text x="30" y="35" font-family="Arial" font-size="14" fill="white" text-anchor="middle">IFBA</text>
+                    <text x="30" y="50" font-family="Arial" font-size="10" fill="white" text-anchor="middle">VCA</text>
+                </svg>
+                <h1>Trufas 1º Ano Informática</h1>
+            </div>
+            <p class="tagline">Deliciosas trufas artesanais feitas pelos alunos</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="main-content">
+            <div class="intro">
+                <h2>Reserve suas trufas!</h2>
+                <p>As trufas são feitas pelos alunos do 1º ano do curso técnico em Informática do IFBA Campus Vitória da Conquista.</p>
+                <p class="price">Apenas R$ 2,00 cada</p>
+                <p>Escolha seu sabor favorito e faça sua reserva!</p>
+            </div>
+
+            <section class="trufas-section">
+                <h2>Nossos Sabores</h2>
+                <div class="trufas-grid" id="trufas-grid">
+                    <!-- As trufas serão carregadas dinamicamente -->
+                </div>
+            </section>
+
+            <section class="reservas-section">
+                <h2>Reservas Recentes</h2>
+                <div class="reservas-list" id="reservas-list">
+                    <!-- As reservas serão carregadas dinamicamente -->
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>IFBA Campus Vitória da Conquista - 1º Ano Informática</p>
+            <p>Projeto de Venda de Trufas - 2024</p>
+        </div>
+    </footer>
+
+    <!-- Modal de Confirmação -->
+    <div id="reserva-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000;">
+        <div style="background-color: white; padding: 2rem; border-radius: 10px; width: 90%; max-width: 500px;">
+            <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Confirmar Reserva</h3>
+            <div id="reserva-modal-body">
+                <!-- Conteúdo será preenchido dinamicamente -->
+            </div>
+            <div style="margin-top: 1.5rem; display: flex; gap: 10px;">
+                <button id="confirm-reserva" class="btn">Confirmar</button>
+                <button id="cancel-reserva" class="btn" style="background-color: #6c757d;">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados das trufas
+        const trufas = [
+            {
+                id: 1,
+                nome: "Brigadeiro",
+                descricao: "O clássico brasileiro, feito com chocolate e granulado.",
+                cor: "#8B4513",
+                emoji: "🍫"
+            },
+            {
+                id: 2,
+                nome: "Maracujá",
+                descricao: "Doce e ácido, perfeito para os amantes de frutas tropicais.",
+                cor: "#FFD700",
+                emoji: "🥭"
+            },
+            {
+                id: 3,
+                nome: "Limão",
+                descricao: "Refrescante e cítrico, uma explosão de sabor.",
+                cor: "#32CD32",
+                emoji: "🍋"
+            },
+            {
+                id: 4,
+                nome: "Morango",
+                descricao: "Suave e frutado, com pedacinhos de morango.",
+                cor: "#FF69B4",
+                emoji: "🍓"
+            }
+        ];
+
+        // Configuração do Gist
+        const GIST_ID = 'cd7f67bfbb5b43b082d5c169d1173ebf';
+        const GITHUB_TOKEN = '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';
+        const GIST_FILENAME = 'reservas_trufas.json';
+
+        // Elementos DOM
+        const trufasGrid = document.getElementById('trufas-grid');
+        const reservasList = document.getElementById('reservas-list');
+        const reservaModal = document.getElementById('reserva-modal');
+        const reservaModalBody = document.getElementById('reserva-modal-body');
+        const confirmReservaBtn = document.getElementById('confirm-reserva');
+        const cancelReservaBtn = document.getElementById('cancel-reserva');
+
+        // Estado da aplicação
+        let reservaAtual = null;
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarTrufas();
+            carregarReservas();
+            configurarEventListeners();
+        });
+
+        // Carregar trufas na página
+        function carregarTrufas() {
+            trufasGrid.innerHTML = '';
+            
+            trufas.forEach(trufa => {
+                const trufaCard = document.createElement('div');
+                trufaCard.className = 'trufa-card';
+                
+                trufaCard.innerHTML = `
+                    <div class="trufa-image" style="background-color: ${trufa.cor}20;">
+                        <span>${trufa.emoji}</span>
+                    </div>
+                    <div class="trufa-info">
+                        <h3>${trufa.nome}</h3>
+                        <p>${trufa.descricao}</p>
+                        <div class="reservation-form">
+                            <div class="form-group">
+                                <label for="nome-${trufa.id}">Seu Nome</label>
+                                <input type="text" id="nome-${trufa.id}" placeholder="Digite seu nome" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="quantidade-${trufa.id}">Quantidade</label>
+                                <input type="number" id="quantidade-${trufa.id}" min="1" max="20" value="1" required>
+                            </div>
+                            <button class="btn reservar-btn" data-trufa-id="${trufa.id}">Reservar</button>
+                        </div>
+                    </div>
+                `;
+                
+                trufasGrid.appendChild(trufaCard);
+            });
+            
+            // Adicionar event listeners aos botões de reserva
+            document.querySelectorAll('.reservar-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const trufaId = this.getAttribute('data-trufa-id');
+                    abrirModalReserva(trufaId);
+                });
+            });
+        }
+
+        // Configurar event listeners
+        function configurarEventListeners() {
+            confirmReservaBtn.addEventListener('click', confirmarReserva);
+            cancelReservaBtn.addEventListener('click', fecharModalReserva);
+        }
+
+        // Abrir modal de reserva
+        function abrirModalReserva(trufaId) {
+            const trufa = trufas.find(t => t.id == trufaId);
+            const nomeInput = document.getElementById(`nome-${trufaId}`);
+            const quantidadeInput = document.getElementById(`quantidade-${trufaId}`);
+            
+            const nome = nomeInput.value.trim();
+            const quantidade = parseInt(quantidadeInput.value);
+            
+            if (!nome) {
+                alert('Por favor, digite seu nome.');
+                return;
+            }
+            
+            if (!quantidade || quantidade < 1) {
+                alert('Por favor, digite uma quantidade válida.');
+                return;
+            }
+            
+            if (quantidade > 20) {
+                alert('Máximo de 20 trufas por reserva.');
+                return;
+            }
+            
+            const valorTotal = quantidade * 2;
+            
+            reservaAtual = {
+                trufaId: trufa.id,
+                trufaNome: trufa.nome,
+                nome: nome,
+                quantidade: quantidade,
+                valorTotal: valorTotal,
+                data: new Date().toLocaleString('pt-BR')
+            };
+            
+            reservaModalBody.innerHTML = `
+                <p><strong>Trufa:</strong> ${trufa.nome} ${trufa.emoji}</p>
+                <p><strong>Nome:</strong> ${nome}</p>
+                <p><strong>Quantidade:</strong> ${quantidade} trufas</p>
+                <p><strong>Valor Total:</strong> R$ ${valorTotal.toFixed(2)}</p>
+                <p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">Sua reserva será salva e você poderá retirar as trufas conforme combinado.</p>
+            `;
+            
+            reservaModal.style.display = 'flex';
+        }
+
+        // Fechar modal de reserva
+        function fecharModalReserva() {
+            reservaModal.style.display = 'none';
+            reservaAtual = null;
+        }
+
+        // Confirmar reserva
+        async function confirmarReserva() {
+            if (!reservaAtual) return;
+            
+            try {
+                // 1. Buscar reservas existentes
+                const reservasExistentes = await buscarReservasDoGist();
+                
+                // 2. Adicionar nova reserva
+                reservasExistentes.push(reservaAtual);
+                
+                // 3. Salvar de volta no Gist
+                await salvarReservasNoGist(reservasExistentes);
+                
+                alert('Reserva confirmada com sucesso!');
+                fecharModalReserva();
+                carregarReservas();
+                
+                // Limpar formulário
+                document.getElementById(`nome-${reservaAtual.trufaId}`).value = '';
+                document.getElementById(`quantidade-${reservaAtual.trufaId}`).value = '1';
+                
+            } catch (error) {
+                console.error('Erro:', error);
+                // Fallback: salvar no localStorage
+                salvarReservaLocal(reservaAtual);
+                alert('Reserva salva localmente (erro no servidor).');
+                fecharModalReserva();
+                carregarReservas();
+            }
+        }
+
+        // Funções para trabalhar com Gist
+        async function buscarReservasDoGist() {
+            try {
+                const response = await fetch(`https://api.github.com/gists/${GIST_ID}`);
+                const gistData = await response.json();
+                
+                if (gistData.files && gistData.files[GIST_FILENAME]) {
+                    return JSON.parse(gistData.files[GIST_FILENAME].content);
+                }
+                return [];
+            } catch (error) {
+                console.error('Erro ao buscar do Gist:', error);
+                // Fallback para localStorage
+                return JSON.parse(localStorage.getItem('reservas_trufas')) || [];
+            }
+        }
+
+        async function salvarReservasNoGist(reservas) {
+            const response = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': `token ${GITHUB_TOKEN}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    files: {
+                        [GIST_FILENAME]: {
+                            content: JSON.stringify(reservas, null, 2)
+                        }
+                    }
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro ao salvar no Gist');
+            }
+
+            // Também salva localmente como backup
+            localStorage.setItem('reservas_trufas', JSON.stringify(reservas));
+        }
+
+        // Carregar reservas
+        async function carregarReservas() {
+            try {
+                const reservas = await buscarReservasDoGist();
+                exibirReservas(reservas);
+            } catch (error) {
+                console.error('Erro ao carregar reservas:', error);
+                const reservasLocais = JSON.parse(localStorage.getItem('reservas_trufas')) || [];
+                exibirReservas(reservasLocais);
+            }
+        }
+
+        // Exibir reservas na lista
+        function exibirReservas(reservas) {
+            reservasList.innerHTML = '';
+            
+            if (reservas.length === 0) {
+                reservasList.innerHTML = '<p style="text-align: center; color: #666;">Nenhuma reserva encontrada.</p>';
+                return;
+            }
+            
+            // Ordenar por data (mais recentes primeiro)
+            const reservasOrdenadas = [...reservas].sort((a, b) => new Date(b.data) - new Date(a.data));
+            
+            // Limitar a 10 reservas mais recentes
+            const reservasRecentes = reservasOrdenadas.slice(0, 10);
+            
+            reservasRecentes.forEach(reserva => {
+                const reservaItem = document.createElement('div');
+                reservaItem.className = 'reserva-item';
+                
+                reservaItem.innerHTML = `
+                    <div class="reserva-info">
+                        <h4>${reserva.nome}</h4>
+                        <p>${reserva.trufaNome} • ${reserva.data}</p>
+                    </div>
+                    <div class="reserva-quantity">
+                        ${reserva.quantidade}x
+                    </div>
+                `;
+                
+                reservasList.appendChild(reservaItem);
+            });
+        }
+
+        // Fallback: salvar reserva localmente
+        function salvarReservaLocal(reserva) {
+            const reservas = JSON.parse(localStorage.getItem('reservas_trufas')) || [];
+            reservas.push(reserva);
+            localStorage.setItem('reservas_trufas', JSON.stringify(reservas));
+        }
+
+        // Função para download das reservas (para administradores)
+        function downloadReservas() {
+            const reservas = JSON.parse(localStorage.getItem('reservas_trufas')) || [];
+            const dataStr = JSON.stringify(reservas, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = 'reservas_trufas.json';
+            link.click();
+        }
+
+        // Adicionar botão de download para administradores
+        window.addEventListener('load', () => {
+            const downloadBtn = document.createElement('button');
+            downloadBtn.textContent = '📥 Baixar Reservas';
+            downloadBtn.style.position = 'fixed';
+            downloadBtn.style.bottom = '20px';
+            downloadBtn.style.right = '20px';
+            downloadBtn.style.background = 'var(--primary-color)';
+            downloadBtn.style.color = 'white';
+            downloadBtn.style.border = 'none';
+            downloadBtn.style.padding = '10px 15px';
+            downloadBtn.style.borderRadius = '5px';
+            downloadBtn.style.cursor = 'pointer';
+            downloadBtn.style.zIndex = '1000';
+            downloadBtn.addEventListener('click', downloadReservas);
+            
+            document.body.appendChild(downloadBtn);
+        });
+    </script>
+</body>
+  </html>
