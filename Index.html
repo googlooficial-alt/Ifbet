@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IFBA Bet - Apostas Acadêmicas</title>
+    <style>
+        :root {
+            --primary-color: #1a472a;
+            --secondary-color: #2e8b57;
+            --accent-color: #ffd700;
+            --text-color: #333;
+            --light-bg: #f5f5f5;
+            --white: #ffffff;
+            --error-color: #e74c3c;
+            --success-color: #2ecc71;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-color);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo img {
+            height: 50px;
+        }
+        
+        .logo h1 {
+            font-size: 1.5rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+        
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: var(--accent-color);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .balance {
+            background-color: var(--secondary-color);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        
+        /* Auth Forms */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+        }
+        
+        .auth-form {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .auth-form h2 {
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--primary-color);
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .auth-switch {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        .auth-switch a {
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 2rem 0;
+        }
+        
+        .welcome-section {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .welcome-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .events-section h2 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .event-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .event-header {
+            background-color: var(--secondary-color);
+            color: var(--white);
+            padding: 1rem;
+        }
+        
+        .event-body {
+            padding: 1rem;
+        }
+        
+        .bet-options {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+        
+        .bet-option {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            background-color: var(--light-bg);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 0 5px;
+        }
+        
+        .bet-option:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .bet-option.selected {
+            background-color: var(--accent-color);
+        }
+        
+        .bet-amount {
+            margin-top: 1rem;
+        }
+        
+        .bet-amount input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .place-bet {
+            margin-top: 1rem;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Messages */
+        .message {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .error {
+            background-color: #ffebee;
+            color: var(--error-color);
+            border: 1px solid var(--error-color);
+        }
+        
+        .success {
+            background-color: #e8f5e9;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <!-- Logo fictícia do IFBA VCA -->
+                    <svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="50" height="50" fill="#1a472a" rx="5"/>
+                        <text x="25" y="30" font-family="Arial" font-size="16" fill="white" text-anchor="middle">IFBA</text>
+                        <text x="25" y="45" font-family="Arial" font-size="10" fill="white" text-anchor="middle">VCA</text>
+                    </svg>
+                    <h1>IFBA Bet</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" id="nav-home">Início</a></li>
+                        <li><a href="#" id="nav-events">Eventos</a></li>
+                        <li><a href="#" id="nav-history">Histórico</a></li>
+                    </ul>
+                </nav>
+                <div class="user-info" id="user-info">
+                    <span id="username-display">Usuário</span>
+                    <div class="balance" id="balance-display">IFBA Coins: 1000</div>
+                    <button id="logout-btn" class="btn">Sair</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Tela de Login -->
+        <div id="login-screen" class="auth-container">
+            <div class="auth-form">
+                <h2>Login</h2>
+                <div id="login-message" class="message"></div>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-username">Usuário</label>
+                        <input type="text" id="login-username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Senha</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    <button type="submit" class="btn">Entrar</button>
+                </form>
+                <div class="auth-switch">
+                    <p>Não tem uma conta? <a href="#" id="switch-to-register">Registre-se</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tela de Registro -->
+        <div id="register-screen" class="auth-container" style="display: none;">
+            <div class="auth-form">
+                <h2>Registro</h2>
+                <div id="register-message" class="message"></div>
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="register-username">Usuário</label>
+                        <input type="text" id="register-username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" id="register-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Senha</label>
+                        <input type="password" id="register-password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-confirm-password">Confirmar Senha</label>
+                        <input type="password" id="register-confirm-password" required>
+                    </div>
+                    <button type="submit" class="btn">Registrar</button>
+                </form>
+                <div class="auth-switch">
+                    <p>Já tem uma conta? <a href="#" id="switch-to-login">Faça login</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conteúdo Principal (após login) -->
+        <div id="main-content" class="main-content" style="display: none;">
+            <section class="welcome-section">
+                <h2>Bem-vindo ao IFBA Bet!</h2>
+                <p>Aposte nos eventos acadêmicos usando IFBA Coins, nossa moeda fictícia.</p>
+                <p>Seu saldo atual: <strong id="welcome-balance">1000 IFBA Coins</strong></p>
+            </section>
+
+            <section class="events-section">
+                <h2>Eventos Disponíveis para Aposta</h2>
+                <div class="events-grid" id="events-grid">
+                    <!-- Os eventos serão carregados dinamicamente via JavaScript -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modal de Confirmação de Aposta -->
+    <div id="bet-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Confirmar Aposta</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div id="bet-modal-body">
+                <!-- Conteúdo será preenchido dinamicamente -->
+            </div>
+            <div class="bet-actions">
+                <button id="confirm-bet" class="btn">Confirmar Aposta</button>
+                <button id="cancel-bet" class="btn" style="background-color: #6c757d; margin-top: 10px;">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados de exemplo
+        const events = [
+            {
+                id: 1,
+                title: "Campeonato de Programação",
+                description: "Aposte em qual equipe vencerá o campeonato anual de programação do IFBA.",
+                options: [
+                    { id: 1, name: "Equipe Alfa", odds: 2.5 },
+                    { id: 2, name: "Equipe Beta", odds: 1.8 },
+                    { id: 3, name: "Equipe Gama", odds: 3.0 }
+                ]
+            },
+            {
+                id: 2,
+                title: "Maratona de Robótica",
+                description: "Quem será o vencedor da maratona de robótica deste semestre?",
+                options: [
+                    { id: 1, name: "RoboTeam A", odds: 2.0 },
+                    { id: 2, name: "CyberBots", odds: 2.2 },
+                    { id: 3, name: "TechMakers", odds: 2.5 }
+                ]
+            },
+            {
+                id: 3,
+                title: "Competição de Matemática",
+                description: "Aposte no aluno que vencerá a competição de matemática.",
+                options: [
+                    { id: 1, name: "João Silva", odds: 3.0 },
+                    { id: 2, name: "Maria Santos", odds: 2.0 },
+                    { id: 3, name: "Pedro Oliveira", odds: 2.5 }
+                ]
+            }
+        ];
+
+        // Estado da aplicação
+        let currentUser = null;
+        let users = JSON.parse(localStorage.getItem('ifbaBetUsers')) || [];
+        let bets = JSON.parse(localStorage.getItem('ifbaBetBets')) || [];
+
+        // Elementos DOM
+        const loginScreen = document.getElementById('login-screen');
+        const registerScreen = document.getElementById('register-screen');
+        const mainContent = document.getElementById('main-content');
+        const userInfo = document.getElementById('user-info');
+        const usernameDisplay = document.getElementById('username-display');
+        const balanceDisplay = document.getElementById('balance-display');
+        const welcomeBalance = document.getElementById('welcome-balance');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const logoutBtn = document.getElementById('logout-btn');
+        const switchToRegister = document.getElementById('switch-to-register');
+        const switchToLogin = document.getElementById('switch-to-login');
+        const eventsGrid = document.getElementById('events-grid');
+        const betModal = document.getElementById('bet-modal');
+        const betModalBody = document.getElementById('bet-modal-body');
+        const confirmBetBtn = document.getElementById('confirm-bet');
+        const cancelBetBtn = document.getElementById('cancel-bet');
+        const closeModalBtn = document.querySelector('.close-modal');
+        const loginMessage = document.getElementById('login-message');
+        const registerMessage = document.getElementById('register-message');
+
+        // Variáveis para controle de apostas
+        let currentBet = null;
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAuthStatus();
+            setupEventListeners();
+            loadEvents();
+        });
+
+        // Verificar status de autenticação
+        function checkAuthStatus() {
+            const loggedInUser = localStorage.getItem('ifbaBetCurrentUser');
+            if (loggedInUser) {
+                currentUser = JSON.parse(loggedInUser);
+                showMainContent();
+            } else {
+                showLoginScreen();
+            }
+        }
+
+        // Configurar event listeners
+        function setupEventListeners() {
+            loginForm.addEventListener('submit', handleLogin);
+            registerForm.addEventListener('submit', handleRegister);
+            logoutBtn.addEventListener('click', handleLogout);
+            switchToRegister.addEventListener('click', () => {
+                loginScreen.style.display = 'none';
+                registerScreen.style.display = 'flex';
+            });
+            switchToLogin.addEventListener('click', () => {
+                registerScreen.style.display = 'none';
+                loginScreen.style.display = 'flex';
+            });
+            confirmBetBtn.addEventListener('click', placeBet);
+            cancelBetBtn.addEventListener('click', closeBetModal);
+            closeModalBtn.addEventListener('click', closeBetModal);
+            
+            // Navegação
+            document.getElementById('nav-home').addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelector('.welcome-section').scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            document.getElementById('nav-events').addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelector('.events-section').scrollIntoView({ behavior: 'smooth' });
+            });
+        }
+
+        // Manipular login
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('ifbaBetCurrentUser', JSON.stringify(user));
+                showMainContent();
+                showMessage(loginMessage, 'Login realizado com sucesso!', 'success');
+            } else {
+                showMessage(loginMessage, 'Usuário ou senha incorretos.', 'error');
+            }
+        }
+
+        // Manipular registro
+        function handleRegister(e) {
+            e.preventDefault();
+            const username = document.getElementById('register-username').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            
+            if (password !== confirmPassword) {
+                showMessage(registerMessage, 'As senhas não coincidem.', 'error');
+                return;
+            }
+            
+            if (users.find(u => u.username === username)) {
+                showMessage(registerMessage, 'Nome de usuário já existe.', 'error');
+                return;
+            }
+            
+            const newUser = {
+                id: Date.now(),
+                username,
+                email,
+                password,
+                balance: 1000 // Saldo inicial
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('ifbaBetUsers', JSON.stringify(users));
+            
+            showMessage(registerMessage, 'Conta criada com sucesso! Faça login.', 'success');
+            
+            // Limpar formulário
+            registerForm.reset();
+            
+            // Voltar para a tela de login após 2 segundos
+            setTimeout(() => {
+                registerScreen.style.display = 'none';
+                loginScreen.style.display = 'flex';
+            }, 2000);
+        }
+
+        // Manipular logout
+        function handleLogout() {
+            currentUser = null;
+            localStorage.removeItem('ifbaBetCurrentUser');
+            showLoginScreen();
+        }
+
+        // Mostrar tela de login
+        function showLoginScreen() {
+            loginScreen.style.display = 'flex';
+            registerScreen.style.display = 'none';
+            mainContent.style.display = 'none';
+            userInfo.style.display = 'none';
+        }
+
+        // Mostrar conteúdo principal
+        function showMainContent() {
+            loginScreen.style.display = 'none';
+            registerScreen.style.display = 'none';
+            mainContent.style.display = 'block';
+            userInfo.style.display = 'flex';
+            
+            usernameDisplay.textContent = currentUser.username;
+            balanceDisplay.textContent = `IFBA Coins: ${currentUser.balance}`;
+            welcomeBalance.textContent = `${currentUser.balance} IFBA Coins`;
+        }
+
+        // Carregar eventos
+        function loadEvents() {
+            eventsGrid.innerHTML = '';
+            
+            events.forEach(event => {
+                const eventCard = document.createElement('div');
+                eventCard.className = 'event-card';
+                
+                let optionsHtml = '';
+                event.options.forEach(option => {
+                    optionsHtml += `
+                        <div class="bet-option" data-event-id="${event.id}" data-option-id="${option.id}">
+                            <div>${option.name}</div>
+                            <div>Odds: ${option.odds}</div>
+                        </div>
+                    `;
+                });
+                
+                eventCard.innerHTML = `
+                    <div class="event-header">
+                        <h3>${event.title}</h3>
+                    </div>
+                    <div class="event-body">
+                        <p>${event.description}</p>
+                        <div class="bet-options">
+                            ${optionsHtml}
+                        </div>
+                        <div class="bet-amount">
+                            <input type="number" min="1" max="${currentUser ? currentUser.balance : 1000}" 
+                                   placeholder="Valor da aposta" data-event-id="${event.id}">
+                        </div>
+                        <div class="place-bet">
+                            <button class="btn" data-event-id="${event.id}">Fazer Aposta</button>
+                        </div>
+                    </div>
+                `;
+                
+                eventsGrid.appendChild(eventCard);
+            });
+            
+            // Adicionar event listeners para as opções de aposta
+            document.querySelectorAll('.bet-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const eventId = this.getAttribute('data-event-id');
+                    const optionId = this.getAttribute('data-option-id');
+                    
+                    // Remover seleção de outras opções no mesmo evento
+                    document.querySelectorAll(`.bet-option[data-event-id="${eventId}"]`).forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Selecionar esta opção
+                    this.classList.add('selected');
+                });
+            });
+            
+            // Adicionar event listeners para os botões de aposta
+            document.querySelectorAll('.place-bet .btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const eventId = this.getAttribute('data-event-id');
+                    openBetModal(eventId);
+                });
+            });
+        }
+
+        // Abrir modal de aposta
+        function openBetModal(eventId) {
+            const selectedOption = document.querySelector(`.bet-option.selected[data-event-id="${eventId}"]`);
+            const betAmountInput = document.querySelector(`.bet-amount input[data-event-id="${eventId}"]`);
+            
+            if (!selectedOption) {
+                alert('Por favor, selecione uma opção para apostar.');
+                return;
+            }
+            
+            const betAmount = parseInt(betAmountInput.value);
+            if (!betAmount || betAmount < 1) {
+                alert('Por favor, insira um valor válido para a aposta.');
+                return;
+            }
+            
+            if (betAmount > currentUser.balance) {
+                alert('Saldo insuficiente para realizar esta aposta.');
+                return;
+            }
+            
+            const event = events.find(e => e.id == eventId);
+            const optionId = selectedOption.getAttribute('data-option-id');
+            const option = event.options.find(o => o.id == optionId);
+            
+            currentBet = {
+                eventId,
+                optionId,
+                eventTitle: event.title,
+                optionName: option.name,
+                odds: option.odds,
+                amount: betAmount,
+                potentialWin: Math.round(betAmount * option.odds * 100) / 100
+            };
+            
+            betModalBody.innerHTML = `
+                <p><strong>Evento:</strong> ${event.title}</p>
+                <p><strong>Sua aposta:</strong> ${option.name}</p>
+                <p><strong>Odds:</strong> ${option.odds}</p>
+                <p><strong>Valor da aposta:</strong> ${betAmount} IFBA Coins</p>
+                <p><strong>Ganho potencial:</strong> ${currentBet.potentialWin} IFBA Coins</p>
+            `;
+            
+            betModal.style.display = 'flex';
+        }
+
+        // Fechar modal de aposta
+        function closeBetModal() {
+            betModal.style.display = 'none';
+            currentBet = null;
+        }
+
+        // Realizar aposta
+        function placeBet() {
+            if (!currentBet) return;
+            
+            // Verificar saldo novamente
+            if (currentBet.amount > currentUser.balance) {
+                alert('Saldo insuficiente para realizar esta aposta.');
+                closeBetModal();
+                return;
+            }
+            
+            // Atualizar saldo do usuário
+            currentUser.balance -= currentBet.amount;
+            
+            // Registrar aposta
+            const bet = {
+                id: Date.now(),
+                userId: currentUser.id,
+                eventId: currentBet.eventId,
+                optionId: currentBet.optionId,
+                amount: currentBet.amount,
+                odds: currentBet.odds,
+                date: new Date().toISOString(),
+                status: 'pending'
+            };
+            
+            bets.push(bet);
+            
+            // Atualizar dados no localStorage
+            const userIndex = users.findIndex(u => u.id === currentUser.id);
+            users[userIndex] = currentUser;
+            
+            localStorage.setItem('ifbaBetUsers', JSON.stringify(users));
+            localStorage.setItem('ifbaBetBets', JSON.stringify(bets));
+            localStorage.setItem('ifbaBetCurrentUser', JSON.stringify(currentUser));
+            
+            // Atualizar interface
+            balanceDisplay.textContent = `IFBA Coins: ${currentUser.balance}`;
+            welcomeBalance.textContent = `${currentUser.balance} IFBA Coins`;
+            
+            alert(`Aposta realizada com sucesso! ${currentBet.amount} IFBA Coins foram debitados da sua conta.`);
+            
+            closeBetModal();
+            
+            // Limpar seleções
+            document.querySelectorAll('.bet-option.selected').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            document.querySelectorAll('.bet-amount input').forEach(input => {
+                input.value = '';
+            });
+        }
+
+        // Mostrar mensagem
+        function showMessage(element, message, type) {
+            element.textContent = message;
+            element.className = `message ${type}`;
+            element.style.display = 'block';
+            
+            setTimeout(() => {
+                element.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+  </html>
